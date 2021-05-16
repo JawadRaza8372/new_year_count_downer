@@ -1,8 +1,13 @@
 import React,{useState} from "react";
+import NewYear from "./NewYear";
+import Oldyear from "./Oldyear";
 function Home(){
     const [text, settext] = useState({days:'',hours:"",minutes:'',second:''});
+    const [gapp, setgappt] = useState(0);
+
     const countdown=()=>{
         const countDate=new Date("January 1 ,2022 12:02:00").getTime();
+
         const now=new Date().getTime();
         let gap= countDate-now;
         const sec=1000;
@@ -13,41 +18,23 @@ function Home(){
         const textmint=Math.floor((gap%hour)/minut);
         const texthour=Math.floor((gap%day)/hour);
         const textDay=Math.floor(gap/day);
-
         
-
+setgappt(gap)
 settext({days:textDay,hours:texthour,minutes:textmint,second:textsec})
     }
-  
     setInterval(countdown,1000);
-    return(<>
-    <section className="coming-soon">
-<div>
-<h2>We are opening up soon!</h2>
-<div className="countdown">
-    <div className="container_day">
-<h3 className="day">{text.days}</h3>
-<h6>day</h6>
+    if (gapp>0){
+        return(<>
+                   <Oldyear days={text.days} hours={text.hours}  minutes={text.minutes} second={text.second}/>
 
-    </div>
-    <div className="container_hour">
-    <h3 className="hour">{text.hours}</h3>
-<h6>hour</h6>
-</div>
- <div className="container_mints">
- <h3 className="mints">{text.minutes}</h3>
-<h6>mint</h6>
-</div>
- <div className="container_sec">
- <h3 className="second">{text.second}</h3>
-<h6>second</h6>
-</div>
-</div>
+            </>);
+    }
+    else{
+        return(<>
+           <NewYear/>
 
-</div>
-<img src="https://image.freepik.com/free-vector/abstract-coming-soon-halftone-style-background-design_1017-27282.jpg" alt="coming soon"/>
-    </section>
-        
-    </>);
+            </>);
+    }
+    
 }
 export default Home;
